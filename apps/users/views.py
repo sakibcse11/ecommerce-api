@@ -1,17 +1,22 @@
 from django.contrib.auth import get_user_model
 from rest_framework import viewsets, permissions, generics
 from rest_framework.request import Request
+from rest_framework_simplejwt.views import TokenObtainPairView
 
 from apps.users.serializers import (
     UserSerializer,
     CustomerRegistrationSerializer,
-    AdminRegistrationSerializer,
+    AdminRegistrationSerializer, CustomTokenObtainPairSerializer,
 )
 from apps.common.permisions import IsAdmin
 
 User = get_user_model()
 
 # Create your views here.
+class CustomTokenObtainPairView(TokenObtainPairView):
+    serializer_class = CustomTokenObtainPairSerializer
+
+
 class CustomerRegistrationView(generics.CreateAPIView):
     serializer_class = CustomerRegistrationSerializer
     permission_classes = [permissions.AllowAny]
