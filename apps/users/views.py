@@ -4,7 +4,8 @@ from rest_framework.request import Request
 
 from apps.users.serializers import (
     UserSerializer,
-    CustomerRegistrationSerializer
+    CustomerRegistrationSerializer,
+    AdminRegistrationSerializer,
 )
 from apps.common.permisions import IsAdmin
 
@@ -12,10 +13,12 @@ User = get_user_model()
 
 # Create your views here.
 class CustomerRegistrationView(generics.CreateAPIView):
-
     serializer_class = CustomerRegistrationSerializer
     permission_classes = [permissions.AllowAny]
 
+class AdminRegistrationView(generics.CreateAPIView):
+    serializer_class = AdminRegistrationSerializer
+    permission_classes = [IsAdmin]
 
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()

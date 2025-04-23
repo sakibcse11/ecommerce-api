@@ -5,7 +5,7 @@ User = get_user_model()
 
 
 class UserSerializer(serializers.ModelSerializer):
-    password = serializers.CharField(write_only=True, required=True, min_length=8)
+    password = serializers.CharField(style={'input_type': 'password'},write_only=True, required=True, min_length=8)
 
     class Meta:
         model = User
@@ -29,4 +29,15 @@ class CustomerRegistrationSerializer(UserSerializer):
         pass
     def create(self, validated_data):
         validated_data['role'] = 'customer'
+        return super().create(validated_data)
+
+class AdminRegistrationSerializer(UserSerializer):
+    class Meta(UserSerializer.Meta):
+        fields = UserSerializer.Meta.fields
+        extra_kwargs = {
+            'password': {'write_only': True},
+            'role': {'read_only': False}
+        }
+    def create(self, validated_data):
+        validated_data['role'] = 'admin'
         return super().create(validated_data)
