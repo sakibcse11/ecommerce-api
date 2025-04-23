@@ -32,6 +32,8 @@ class User(AbstractBaseUser, PermissionsMixin):
         ('vendor', 'Vendor'),
         ('customer', 'Customer'),
     )
+    first_name = models.CharField(max_length=30)
+    last_name = models.CharField(max_length=30)
     email = models.EmailField(max_length=255, unique=True)
     role = models.CharField(max_length=10, choices=ROLE_CHOICES, default='customer')
     is_active = models.BooleanField(default=True)
@@ -42,9 +44,24 @@ class User(AbstractBaseUser, PermissionsMixin):
     address = models.TextField(blank=True, null=True)
 
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['role']
+    REQUIRED_FIELDS = ['first_name', 'last_name']
     objects = UserManager()
 
+    class Meta:
+        ordering = ['-date_joined']
 
     def __str__(self):
         return self.email
+
+
+    @property
+    def is_admin(self):
+        return self.role == 'admin'
+
+    @property
+    def is_vendor(self):
+        return self.role == 'vendor'
+
+    @property
+    def is_customer(self):
+        return self.role == 'customer'
