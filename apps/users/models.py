@@ -33,14 +33,18 @@ class User(AbstractBaseUser, PermissionsMixin):
         ('customer', 'Customer'),
     )
     email = models.EmailField(max_length=255, unique=True)
+    role = models.CharField(max_length=10, choices=ROLE_CHOICES, default='customer')
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
     date_joined = models.DateTimeField(default=timezone.now)
 
-    objects = UserManager()
+    phone_number = models.CharField(max_length=15, blank=True, null=True)
+    address = models.TextField(blank=True, null=True)
 
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = []
+    REQUIRED_FIELDS = ['role']
+    objects = UserManager()
+
 
     def __str__(self):
         return self.email
