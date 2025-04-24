@@ -1,6 +1,7 @@
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import viewsets, filters, status, permissions
 from rest_framework.decorators import action
+from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.response import Response
 
 from apps.common.permissions import IsAdmin, IsVendor
@@ -16,7 +17,7 @@ from .serializers import (
 class ProductViewSet(viewsets.ModelViewSet):
     queryset = Product.objects.all()
     serializer_class = ProductListSerializer
-
+    parser_classes = [MultiPartParser, FormParser]
     lookup_field = 'slug'
     filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
     filterset_fields = ['vendor', 'is_available']
@@ -41,7 +42,7 @@ class ProductViewSet(viewsets.ModelViewSet):
 
         # Restrict to vendor's own products for `my_products` view
         if getattr(self, 'action', None) == 'my_products' and self.request.user.is_vendor:
-            queryset = queryset.filter(vendor=self.request.user.vendors)
+            queryset = queryset.filter(vendor=self.request.user.vendor)
 
         return queryset
 
