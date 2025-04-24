@@ -5,9 +5,9 @@ from rest_framework_simplejwt.views import TokenObtainPairView
 from apps.users.serializers import (
     UserSerializer,
     CustomerRegistrationSerializer,
-    AdminRegistrationSerializer, CustomTokenObtainPairSerializer, VendorRegistrationSerializer,
+    AdminRegistrationSerializer, CustomTokenObtainPairSerializer,
 )
-from apps.common.permissions import IsAdmin
+from apps.common.permissions import IsAdmin, IsNotAuthenticated
 
 User = get_user_model()
 
@@ -18,12 +18,7 @@ class CustomTokenObtainPairView(TokenObtainPairView):
 
 class CustomerRegistrationView(generics.CreateAPIView):
     serializer_class = CustomerRegistrationSerializer
-    permission_classes = [permissions.AllowAny]
-
-
-class VendorRegistrationView(generics.CreateAPIView):
-    serializer_class = VendorRegistrationSerializer
-    permission_classes = [permissions.AllowAny]
+    permission_classes = [IsNotAuthenticated]
 
 class AdminRegistrationView(generics.CreateAPIView):
     serializer_class = AdminRegistrationSerializer

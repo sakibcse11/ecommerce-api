@@ -41,17 +41,6 @@ class CustomerRegistrationSerializer(UserSerializer):
         return super().create(validated_data)
 
 
-class VendorRegistrationSerializer(UserSerializer):
-    class Meta(UserSerializer.Meta):
-        pass
-
-    def create(self, validated_data):
-        validated_data['role'] = 'vendor'
-        user = super().create(validated_data)
-        from apps.vendors.models import Vendor
-        Vendor.objects.create(user=user)
-        return user
-
 class AdminRegistrationSerializer(UserSerializer):
     class Meta(UserSerializer.Meta):
         fields = UserSerializer.Meta.fields

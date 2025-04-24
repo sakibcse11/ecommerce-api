@@ -12,6 +12,10 @@ class IsCustomer(BasePermission):
     def has_permission(self, request, view):
         return request.user.is_authenticated and request.user.is_customer
 
+class IsNotAuthenticated(BasePermission):
+
+    def has_permission(self, request, view):
+        return not request.user or not request.user.is_authenticated
 
 class IsVendorOwner(BasePermission):
 

@@ -3,7 +3,7 @@ from rest_framework import viewsets, permissions, filters
 from rest_framework.parsers import MultiPartParser, FormParser
 from django_filters.rest_framework import DjangoFilterBackend
 
-from apps.common.permissions import IsAdmin, IsVendor
+from apps.common.permissions import IsAdmin, IsVendor, IsNotAuthenticated
 from .models import Vendor
 from .serializers import VendorSerializer, VendorDetailSerializer, VendorUpdateSerializer
 
@@ -34,7 +34,11 @@ class VendorViewSet(viewsets.ModelViewSet):
 
         if self.action in ['list', 'retrieve']:
             permission_classes = [permissions.AllowAny]
-        elif self.action in ['create','update', 'partial_update']:
+
+        elif self.action in ['create']:
+            permission_classes = [IsNotAuthenticated]
+
+        elif self.action in ['update', 'partial_update']:
             permission_classes = [permissions.IsAuthenticated, IsVendor]
         else:
             permission_classes = [IsAdmin]
