@@ -70,14 +70,14 @@ The application should now be running at `http://127.0.0.1:8000/`.
 You can access the Swagger documentation for the API at:
 
 ```bash
-http://localhost:8000/docs/swagger/
+http://localhost:8000/api/docs/swagger/
 ```
 ## Redoc UI Documentation
 
 You can access the Swagger documentation for the API at:
 
 ```bash
-http://localhost:8000/docs/redoc/
+http://localhost:8000/api/docs/redoc/
 ```
 
 ## API Endpoints
