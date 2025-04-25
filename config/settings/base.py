@@ -44,7 +44,8 @@ THIRD_PARTY_APPS = [
     'django_filters',
     'rest_framework_simplejwt',
     'drf_spectacular',
-    'drf_spectacular_sidecar'
+    'drf_spectacular_sidecar',
+    'django_redis'
 ]
 
 LOCAL_APPS = [
@@ -166,14 +167,39 @@ REST_FRAMEWORK = {
         'user': '1000/day'
     }
 }
+#JWT
 SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(hours=1),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=7),
 }
-
+#API schema settings
 SPECTACULAR_SETTINGS = {
     'SWAGGER_UI_DIST': 'SIDECAR',
     'SWAGGER_UI_FAVICON_HREF': 'SIDECAR',
     'REDOC_DIST': 'SIDECAR',
     'COMPONENT_SPLIT_REQUEST': True,
 }
+# Celery configuration
+CELERY_BROKER_URL = 'redis://localhost:6379/0'
+CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
+
+# Redis Cache Configuration
+CACHES = {
+    'default': {
+        'BACKEND': 'django_redis.cache.RedisCache',
+        'LOCATION': 'redis://127.0.0.1:6379/1',
+        'OPTIONS': {
+            'CLIENT_CLASS': 'django_redis.client.DefaultClient',
+        }
+    }
+}
+
+# Cache timeout in seconds (5 minutes)
+CACHE_TTL = 60 * 5
+
+# Use Redis for session storage
+SESSION_ENGINE = 'django.contrib.sessions.backends.cache'
+SESSION_CACHE_ALIAS = 'default'
+
+# Cache frequently accessed product data
+PRODUCT_CACHE_TTL = 60 * 15  # 15 minutes
