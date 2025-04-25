@@ -4,7 +4,7 @@
 
 1. **Clone the repository:**
     ```bash
-    git clone https://github.com/yourusername/your-repository.git
+    git clone https://github.com/sakibcse11/ecommerce-api.git
     cd your-repository
     ```
 
