@@ -1,4 +1,6 @@
 from django_filters.rest_framework import DjangoFilterBackend
+from drf_spectacular.types import OpenApiTypes
+from drf_spectacular.utils import extend_schema, OpenApiParameter
 from rest_framework import viewsets, filters, status, permissions
 from rest_framework.decorators import action
 from rest_framework.parsers import MultiPartParser, FormParser
@@ -14,6 +16,7 @@ from .serializers import (
 
 
 # Create your views here.
+
 class ProductViewSet(viewsets.ModelViewSet):
     queryset = Product.objects.all()
     serializer_class = ProductListSerializer
@@ -32,6 +35,7 @@ class ProductViewSet(viewsets.ModelViewSet):
 
         queryset = queryset.select_related('vendor').prefetch_related('images')
 
+        #filter by using min and max price
         min_price = self.request.query_params.get('min_price')
         max_price = self.request.query_params.get('max_price')
 

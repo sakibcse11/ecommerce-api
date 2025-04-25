@@ -64,6 +64,7 @@ class OrderCreateSerializer(serializers.ModelSerializer):
             if product.inventory < quantity:
                 raise serializers.ValidationError(f"Not enough stock for {product.name}. Available: {product.inventory}")
 
+            #if the same product, update quantity instead of create another order item
             existing_item = OrderItem.objects.filter(order=order, product=product).first()
 
             if existing_item:

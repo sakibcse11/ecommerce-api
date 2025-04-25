@@ -23,6 +23,7 @@ def notify_order_status_change(sender, instance, created, **kwargs):
 @receiver(post_save, sender=Order)
 def notify_vendors_new_order(sender, instance, created, **kwargs):
     if created:
+        #send notifications only when order is completely placed
         transaction.on_commit(lambda: send_vendor_notifications(instance.id))
 
 def send_vendor_notifications(order_id):

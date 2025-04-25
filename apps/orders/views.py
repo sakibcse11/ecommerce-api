@@ -46,6 +46,7 @@ class OrderViewSet(viewsets.ModelViewSet):
 
         return queryset.filter(customer=user)
 
+    #Admin can update status of an order
     @action(detail=True, methods=['post'])
     def update_status(self, request, pk=None):
         order = self.get_object()
@@ -62,6 +63,7 @@ class OrderViewSet(viewsets.ModelViewSet):
 
         return Response(OrderSerializer(order).data)
 
+    #Customer orders
     @action(detail=False, methods=['get'])
     def my_orders(self, request):
         if not request.user.is_authenticated:
@@ -79,6 +81,7 @@ class OrderViewSet(viewsets.ModelViewSet):
         serializer = OrderSerializer(orders, many=True)
         return Response(serializer.data)
 
+    #vencor can see their orders
     @action(detail=False, methods=['get'])
     def vendor_orders(self, request):
         if not hasattr(request.user, 'vendor'):
