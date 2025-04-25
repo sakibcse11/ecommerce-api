@@ -54,7 +54,7 @@ class ProductViewSet(viewsets.ModelViewSet):
         if self.action in ['list', 'retrieve']:
             permission_classes = [permissions.AllowAny]
         elif self.action in ['create', 'update', 'partial_update', 'destroy', 'my_products']:
-            permission_classes = [permissions.IsAuthenticated, IsVendor]
+            permission_classes = [IsVendor]
         else:
             permission_classes = [IsAdmin]
         return [permission() for permission in permission_classes]

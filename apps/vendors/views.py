@@ -39,7 +39,7 @@ class VendorViewSet(viewsets.ModelViewSet):
             permission_classes = [IsNotAuthenticated]
 
         elif self.action in ['update', 'partial_update']:
-            permission_classes = [permissions.IsAuthenticated, IsVendor]
+            permission_classes = [IsVendor]
         else:
             permission_classes = [IsAdmin]
         return [permission() for permission in permission_classes]
