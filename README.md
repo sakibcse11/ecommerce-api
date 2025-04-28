@@ -74,7 +74,7 @@ http://localhost:8000/api/docs/swagger/
 ```
 ## Redoc UI Documentation
 
-You can access the Swagger documentation for the API at:
+You can access the Redoc documentation for the API at:
 
 ```bash
 http://localhost:8000/api/docs/redoc/
